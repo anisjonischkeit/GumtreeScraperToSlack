@@ -1,0 +1,11 @@
+{
+  "name": "node-gumtree-scraper",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Anis Jonischkeit",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4",
+    "x-ray": "https://github.com/matthewmueller/x-ray"
+  }
+}
