@@ -823,7 +823,7 @@ reduce-component@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/reduce-component/-/reduce-component-1.0.1.tgz#e0c93542c574521bea13df0f9488ed82ab77c5da"
 
-request@^2.55.0:
+request@^2.55.0, request@^2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -1077,21 +1077,6 @@ x-ray-parse@^1.0.0, x-ray-parse@~1.0.1:
   resolved "https://registry.yarnpkg.com/x-ray-parse/-/x-ray-parse-1.0.1.tgz#08d0ffc5e3ad139c11050af9aea4760949f29694"
   dependencies:
     format-parser "0.0.2"
-
-x-ray@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/x-ray/-/x-ray-2.3.2.tgz#5d1ecc84b48a01ebea73f70a6fa0d1171bbc39e4"
-  dependencies:
-    batch "~0.5.2"
-    chalk "~1.1.1"
-    cheerio "~0.20.0"
-    debug "~2.2.0"
-    enstore "~1.0.1"
-    is-url "~1.2.0"
-    isobject "~2.0.0"
-    object-assign "~4.0.1"
-    x-ray-crawler "~2.0.1"
-    x-ray-parse "~1.0.1"
 
 "x-ray@https://github.com/matthewmueller/x-ray":
   version "2.3.2"
