@@ -1,0 +1,11 @@
+version: "2"
+services:
+  node:
+    build:
+      context: .
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./src/server.js:/usr/src/app/server.js
+    ports:
+      - "8081:8081"
