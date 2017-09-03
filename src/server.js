@@ -1,8 +1,8 @@
+// while (true) {}
 const express = require('express');
 const fs = require('fs');
 const Xray = require('x-ray');
 const request = require('request');
-
 
 const app = express();
 const xray = Xray();
@@ -10,9 +10,17 @@ xray.timeout(20000)
 
 const GUMTREE_JSON_FILE = "./gumtree.json"
 const GUMTREE_URLS_FILE = "./gumtreeUrls.json"
+let _firstRun = true
 
 gumtree = {}
 gumtreeUrls = new Set()
+
+
+// ##################################################################
+// 
+//                             SCRAPER
+// 
+// ##################################################################
 
 const sendSlackAlert = (message) => {
     request.post({
@@ -42,7 +50,7 @@ const scrape = (url, callback=(()=>{})) => {
         re.forEach(item => {
             let gItem = gumtree[item.link]
             console.log(gItem)
-            if (gItem === undefined) {
+            if (gItem === undefined && !_firstRun) {
                 // send a text
                 gumtree[item.link] = item
                 gumtree[item.link].latestPrice = item.price
@@ -99,13 +107,20 @@ const scrape = (url, callback=(()=>{})) => {
                 console.log("The JSON file was saved!");
             }
         }); 
+
+        _firstRun = false
         callback()
     })
 }
 
-app.get("/gumtree", (req, res) => {
-    const url = req.query.url
-    gumtreeUrls.add(url)
+
+// ##################################################################
+// 
+//                             ENDPOINTS
+// 
+// ##################################################################
+
+app.get("/gumtree/get/json", (req, res) => {
     fs.writeFile(GUMTREE_URLS_FILE, JSON.stringify([...gumtreeUrls]), function(err) {
         if (err) {
             console.log(err)
@@ -117,6 +132,26 @@ app.get("/gumtree", (req, res) => {
         res.send(gumtree)
     })
 })
+
+app.get("/gumtree/get/urls", (req, res) => {
+    res.send([...gumtreeUrls])
+})
+
+app.get("/gumtree/add/urls", (req, res) => {
+    const url = req.query.url
+
+    if (url == null) {
+        return res.send("Please specify the url to add")
+    }
+    gumtreeUrls.add(url)
+    return res.send(`Successfully added ${url}`)
+})
+
+// ##################################################################
+// 
+//                             SETUP
+// 
+// ##################################################################
 
 {
     try {
