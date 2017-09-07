@@ -128,9 +128,7 @@ app.get("/gumtree/get/json", (req, res) => {
             console.log("The URLS file was saved!");
         }
     }); 
-    scrape(url, () => {
-        res.send(gumtree)
-    })
+    res.send(gumtree)
 })
 
 app.get("/gumtree/get/urls", (req, res) => {
@@ -145,6 +143,11 @@ app.get("/gumtree/add/urls", (req, res) => {
     }
     gumtreeUrls.add(url)
     return res.send(`Successfully added ${url}`)
+})
+
+app.get("/gumtree/do/scrape", (req, res) => {
+    scrapeAll()
+    return res.send("Now Scraping")
 })
 
 // ##################################################################
@@ -177,10 +180,12 @@ app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
-setInterval(() => {
+const scrapeAll = () => {
     for (let url of gumtreeUrls) {
         scrape(url)
     }
-}, 3 * 60 * 1000)
+}
+
+setInterval(scrapeAll, 3 * 60 * 1000)
 
 exports = module.exports = app;
