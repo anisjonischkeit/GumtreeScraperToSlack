@@ -14,6 +14,7 @@ let _firstRun = true
 
 gumtree = {}
 gumtreeUrls = new Set()
+ignoreWords = new Set()
 
 
 // ##################################################################
@@ -50,6 +51,10 @@ const scrape = (url, callback=(()=>{})) => {
         re.forEach(item => {
             let gItem = gumtree[item.link]
             console.log(gItem)
+            
+            if (ignoreWords.some(iword => item.title.contains(iword))
+               return
+            
             if (gItem === undefined && !_firstRun) {
                 // send a text
                 gumtree[item.link] = item
@@ -143,6 +148,16 @@ app.get("/gumtree/add/urls", (req, res) => {
     }
     gumtreeUrls.add(url)
     return res.send(`Successfully added ${url}`)
+})
+
+app.get("/gumtree/add/ignore", (req, res) => {
+    const word = req.query.word
+
+    if (word == null) {
+        return res.send("Please specify the word to add")
+    }
+    ignoreWords.add(word)
+    return res.send(`Successfully added ${word}`)
 })
 
 app.get("/gumtree/do/scrape", (req, res) => {
